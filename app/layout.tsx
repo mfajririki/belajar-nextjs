@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +28,24 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        {/* HEADER */}
+        <header className="bg-blue-600 text-white p-4">
+          <nav className="container mx-auto flex gap-4">
+            <Link href="/">Home</Link>
+            <Link href="/about">About</Link>
+            <Link href="/contact">Contact</Link>
+          </nav>
+        </header>
+
+        {/* CONTENT */}
+        <main className="container mx-auto p-6">{children}</main>
+
+        {/* FOOTER */}
+        <footer className="bg-gray-800 text-gray-200 p-4 text-center mt-10">
+          <p>
+            © {new Date().getFullYear()} Belajar Next.js. All rights reserved.
+          </p>
+        </footer>
       </body>
     </html>
   );
