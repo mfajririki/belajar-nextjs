@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export default function PostsPage() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [posts, setPosts] = useState<any[]>([]);
 
   useEffect(() => {
@@ -14,12 +15,17 @@ export default function PostsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Daftar Posts</h1>
+      <h1 className="text-2xl font-bold mb-4">Daftar Posts (dari API Lokal)</h1>
       <ul className="space-y-2">
-        {posts.slice(0, 5).map((post: any) => (
+        {posts.map((post) => (
           <li key={post.id} className="p-3 border rounded">
-            <h2 className="font-semibold">{post.title}</h2>
-            <p className="text-gray-600">{post.body}</p>
+            <Link
+              href={`/posts/${post.id}`}
+              className="font-semibold text-blue-600 hover:underline"
+            >
+              {post.title}
+            </Link>
+            <p className="text-gray-600">{post.content}</p>
           </li>
         ))}
       </ul>
