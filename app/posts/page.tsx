@@ -1,10 +1,16 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export default async function PostsPage() {
-  // fetch ke public API
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
-    cache: "no-store",
-  });
-  const posts = await res.json();
+export default function PostsPage() {
+  const [posts, setPosts] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch("/api/posts")
+      .then((res) => res.json())
+      .then((data) => setPosts(data));
+  }, []);
 
   return (
     <div>
