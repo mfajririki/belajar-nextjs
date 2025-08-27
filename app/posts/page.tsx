@@ -1,7 +1,6 @@
 "use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function PostsPage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,7 +14,16 @@ export default function PostsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Daftar Posts (dari API Lokal)</h1>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">Daftar Posts</h1>
+        <Link
+          href="/posts/new"
+          className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+        >
+          + Tambah
+        </Link>
+      </div>
+
       <ul className="space-y-2">
         {posts.map((post) => (
           <li key={post.id} className="p-3 border rounded">

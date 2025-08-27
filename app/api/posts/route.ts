@@ -10,6 +10,19 @@ const posts = [
   },
 ];
 
+// GET semua posts
 export async function GET() {
   return NextResponse.json(posts);
+}
+
+// POST tambah post
+export async function POST(req: Request) {
+  const body = await req.json();
+  const newPost = {
+    id: posts.length + 1,
+    title: body.title,
+    content: body.content,
+  };
+  posts.push(newPost);
+  return NextResponse.json(newPost, { status: 201 });
 }
