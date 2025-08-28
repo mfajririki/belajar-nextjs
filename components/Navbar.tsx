@@ -10,6 +10,8 @@ const navItems = [
   { name: "About", path: "/about" },
   { name: "Contact", path: "/contact" },
   { name: "Dashboard", path: "/dashboard" },
+  { name: "Users (SSR)", path: "/users" },
+  { name: "Users (CSR)", path: "/users-csr" }, // 👈 baru
 ];
 
 export default function Navbar() {
