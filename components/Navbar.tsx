@@ -11,7 +11,9 @@ const navItems = [
   { name: "Contact", path: "/contact" },
   { name: "Dashboard", path: "/dashboard" },
   { name: "Users (SSR)", path: "/users" },
-  { name: "Users (CSR)", path: "/users-csr" }, // 👈 baru
+  { name: "Users (CSR)", path: "/users-csr" },
+  { name: "Users (SSG)", path: "/users-ssg" },
+  { name: "Users (ISR)", path: "/users-isr" },
 ];
 
 export default function Navbar() {
