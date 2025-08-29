@@ -1,42 +1,77 @@
 "use client";
-import Link from "next/link";
+
 import { useEffect, useState } from "react";
 
-export default function PostsPage() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [posts, setPosts] = useState<any[]>([]);
+type Post = {
+  id: number;
+  title: string;
+  content: string | null;
+  createdAt: string;
+};
 
+export default function PostsPage() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  // Ambil data dari API
   useEffect(() => {
     fetch("/api/posts")
       .then((res) => res.json())
       .then((data) => setPosts(data));
   }, []);
 
-  return (
-    <div>
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Daftar Posts</h1>
-        <Link
-          href="/posts/new"
-          className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
-        >
-          + Tambah
-        </Link>
-      </div>
+  // Submit Post baru
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const res = await fetch("/api/posts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, content }),
+    });
+    const newPost = await res.json();
+    setPosts([newPost, ...posts]); // update list tanpa reload
+    setTitle("");
+    setContent("");
+  }
 
-      <ul className="space-y-2">
+  return (
+    <div className="max-w-2xl mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Posts</h1>
+
+      {/* Form buat post */}
+      <form onSubmit={handleSubmit} className="mb-6">
+        <input
+          type="text"
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="border p-2 w-full mb-2 rounded"
+          required
+        />
+        <textarea
+          placeholder="Content"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          className="border p-2 w-full mb-2 rounded"
+        />
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          Add Post
+        </button>
+      </form>
+
+      {/* List posts */}
+      <div>
         {posts.map((post) => (
-          <li key={post.id} className="p-3 border rounded">
-            <Link
-              href={`/posts/${post.id}`}
-              className="font-semibold text-blue-600 hover:underline"
-            >
-              {post.title}
-            </Link>
-            <p className="text-gray-600">{post.content}</p>
-          </li>
+          <div key={post.id} className="border-b py-2">
+            <h2 className="font-semibold">{post.title}</h2>
+            <p className="text-sm text-gray-600">{post.content}</p>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
