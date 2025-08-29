@@ -29,7 +29,7 @@ export default function ContactPage() {
       setStatus(data.message);
       setForm({ name: "", email: "", message: "" });
     } catch (err) {
-      console.error(err);
+      console.log(err);
       setStatus("Something went wrong");
     }
   };

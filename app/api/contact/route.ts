@@ -1,22 +1,32 @@
 import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
-  const body = await req.json();
-  const { name, email, message } = body;
+  try {
+    const body = await req.json();
+    const { name, email, message } = body;
 
-  // 🚨 validasi sederhana
-  if (!name || !email || !message) {
+    if (!name || !email || !message) {
+      return NextResponse.json(
+        { error: "All fields are required" },
+        { status: 400 }
+      );
+    }
+
+    const newMessage = await prisma.message.create({
+      data: { name, email, message },
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: "Message saved!",
+      data: newMessage,
+    });
+  } catch (error) {
+    console.error("API Error:", error);
     return NextResponse.json(
-      { error: "All fields are required" },
-      { status: 400 }
+      { error: "Internal Server Error" },
+      { status: 500 }
     );
   }
-
-  // Simulasi simpan ke database
-  console.log("📩 New message:", body);
-
-  return NextResponse.json({
-    success: true,
-    message: "Message received!",
-  });
 }
